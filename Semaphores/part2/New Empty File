@@ -1,0 +1,28 @@
+  int n = produced*producers; 
+
+    //sort array
+	for (int i = 0; i < n; i++)                     //Loop for ascending ordering
+	{
+		for (int j = 0; j < n; j++)             //Loop for comparing other values
+		{
+			if (itemAdded[j] > itemAdded[i])                //Comparing other array elements
+			{
+				int tmp = itemAdded[i];         //Using temporary variable for storing last value
+				itemAdded[i] = itemAdded[j];            //replacing value
+				itemAdded[j] = tmp;             //storing last value
+			}  
+		}
+	}
+
+    for (int i = 0; i < n; i++)                     //Loop for ascending ordering
+	{
+		for (int j = 0; j < n; j++)             //Loop for comparing other values
+		{
+			if (itemRemoved[j] > itemRemoved[i])                //Comparing other array elements
+			{
+				int tmp = itemRemoved[i];         //Using temporary variable for storing last value
+				itemRemoved[i] = itemRemoved[j];            //replacing value
+				itemRemoved[j] = tmp;             //storing last value
+			}  
+		}
+	}

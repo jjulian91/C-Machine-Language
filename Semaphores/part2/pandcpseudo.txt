@@ -1,0 +1,112 @@
+Main(){
+    if(args ==  7)
+        dereference arguments
+    else check args
+
+    init_lock(lock) //0 -> 1
+    init_lock(full) // n buffers -> 0
+    init_lock(empty) // 1 -> n-1 buffers
+
+
+    if((producers*produced)%consumers != 0)
+        overconsume = true;
+        remainder = overconsume amount
+
+    print args for help
+
+    itemAdded[produced*producers];
+    itemRemoved[produced*producers];
+
+    buffers[n];
+
+    tid[consumers+producers]
+    
+    //set up TID's
+    for( i = 0   i-> (consumers+producers) )
+        tid[i] = i+1;
+
+    time_t start = now();
+
+    for(i = 0 i-> (consumers+producers)
+        if( i < producers)
+            thread_create(tid[i], null, produce, *args)
+        else
+            if(i - producers == consumers - 1)
+                args.numberItems -> overconsumed + consumed
+                thread_create(tid[i], null, consume, *args)
+            else
+                thread_create(tid[i], null, consume, *args)
+
+     for( i = 0; i-> total_threads)
+        pthread_join
+
+    time_t end = now();
+
+    boolean test = true
+
+    //testing scheme
+    for(i = 0; i -> addedIndex)
+       if(itemAdded[i] != itemRemoved[i])
+           test = false
+
+
+
+}
+
+produce(void *prod){
+    struct threadArgs *args = (struct threadArgs *) prod;
+
+    //get individual args from struct
+
+    for  i = 0; i-> (*args -> numberItems)
+        wait &empty
+        wait  &Lock
+        item = enqueue_item(var);
+        var++;
+        post &Lock
+        post &full
+        sleep pSleep
+        itemAdded[addedIndex] = item
+        addedindex++
+
+     pthread_exit(0)
+}
+
+
+
+consume(void *cons){
+    struct threadArgs *args = (struct threadArgs *) cons;
+
+    //get individual args from struct
+
+    for  i = 0; i -> (*args-> numberItems)
+            wait &full
+            wait &Lock
+            item = dequeue_item();
+            post &Lock
+            post &empty
+            sleep cSleep
+            itemRemoved[removedIndex] = item;
+            removedIndex++;
+     
+     pthread_exit(0)
+}
+
+int enqueue_item(int item)
+{
+    numBuffers[countIn] = item;
+    countIn = (countIn + 1) % buffers;
+    return item;
+}
+
+int dequeue_item()
+{
+    int itemRem = numBuffers[countOut];
+    numBuffers[countOut] = '\0';
+    countOut = (countOut + 1) % buffers;
+    return itemRem;
+}
+struct threadArgs{
+    int* numberItems;
+    pthread_t id;
+};
