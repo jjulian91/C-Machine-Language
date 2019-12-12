@@ -1,0 +1,10 @@
+ORI	$0	$9 	0x0008				
+LUI	$18	x1001					
+slti	$9	$1	x0002				
+bne	$1	$0	0x00400050				
+addi	$18	$18	0xfffc				
+lw	$8	4($18)					
+addi	$9	$9	0xffff				
+add	$10	$8	$10				
+slti	$1	$9	x0002				
+beq	$1	$0	0x00400038				

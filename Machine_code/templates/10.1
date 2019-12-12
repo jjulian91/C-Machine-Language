@@ -1,0 +1,82 @@
+#
+# CSc 256 Example 10.1: Floating point
+# File: 10.1
+# Name: William Hsu
+# Date: 7/7/2010
+# Description:  reads in two arrays of floats x[] and y[]
+#               if (x[i] > y[i])
+#                 x[i] = x[i] + y[i];
+#               print x[]
+
+
+	.data
+x:	.float	0.0,0.0,0.0,0.0,0.0
+y:	.float	0.0,0.0,0.0,0.0,0.0
+prmptx:	.asciiz	"Enter 5 elements for x[]:\n"
+prmpty:	.asciiz	"Enter 5 elements for y[]:\n"
+outpr:	.asciiz	"\nElements of x[] are:\n"
+endl:	.asciiz	"\n"
+
+	.text
+main:	la	$a0,prmptx	
+	li	$v0,4
+	syscall
+
+	li	$s0,0
+	la	$s1,x
+				# for (i=0;i<5;i++)
+loopx:	li	$v0,6		#   cin >> x[i]; 
+	syscall			
+	s.s	$f0,($s1)
+	add	$s0,$s0,1
+	add	$s1,$s1,4
+	blt	$s0,5,loopx
+
+	la	$a0,prmpty
+	li	$v0,4
+	syscall
+	
+	li	$s0,0
+	la	$s1,y
+				# for (i=0;i<5;i++)
+loopy:	li	$v0,6		#   cin >> y[i]; 
+	syscall			
+	s.s	$f0,($s1)
+	add	$s0,$s0,1
+	add	$s1,$s1,4
+	blt	$s0,5,loopy
+
+	li	$s0,0
+	la	$s1,x
+	la	$s2,y
+	
+loop:	l.s	$f0,($s1)	# for (i=0;i<5;i++)
+	l.s	$f2,($s2)	#   if (x[i] > y[i])
+	c.le.s	$f0,$f2		#     x[i] = x[i] + y[i]; 
+	bc1t	skip
+	add.s	$f2, $f0, $f2
+	s.s	$f2,($s1)
+skip:	add	$s0,$s0,1
+	add	$s1,$s1,4
+	add	$s2,$s2,4
+	blt	$s0,5,loop
+
+	la	$a0,outpr
+	li	$v0,4
+	syscall
+
+	li	$s0,0
+	la	$s1,x
+				# for (i=0;i<5;i++)
+loopo:	li	$v0,2		#   cout << x[i];
+	l.s	$f12,($s1)
+	syscall
+	la	$a0,endl
+	li	$v0,4
+	syscall
+	add	$s0,$s0,1
+	add	$s1,$s1,4
+	blt	$s0,5,loopo
+
+	li	$v0,10
+	syscall
